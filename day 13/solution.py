@@ -1,3 +1,5 @@
+import itertools
+from functools import cmp_to_key
 from typing import Union, List
 import json
 
@@ -46,3 +48,14 @@ for ind, (left, right) in enumerate(pairs, start=1):
         indices_in_order.append(ind)
 
 print(f"First star solution: {sum(indices_in_order)}")
+
+new_packets = [[[2]], [[6]]]
+packets = list(itertools.chain.from_iterable(pairs)) + new_packets
+
+# I defined my function opposite way than convention
+packets = sorted(packets, key=cmp_to_key(lambda x, y: compare_values(y, x)))
+
+ind1 = packets.index(new_packets[0]) + 1
+ind2 = packets.index(new_packets[1]) + 1
+
+print(f"Second star solution: {ind1 * ind2}")
