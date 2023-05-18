@@ -62,7 +62,7 @@ def position_ahead(maze, dir, x, y) -> Tuple[int, int, str]:
 def folded_position_ahead(maze, dir, x, y) -> Tuple[int, int, str, str]:
     if dir == ">":
         newy = y
-        newx = (x + 1)
+        newx = x + 1
         newdir = ">"
         if newx == len(maze[0]) or maze[newy][newx] == " ":
             if y < 50:
@@ -78,13 +78,13 @@ def folded_position_ahead(maze, dir, x, y) -> Tuple[int, int, str, str]:
                 newy = 149 - y
                 newdir = "<"
             elif 150 <= y < 200:
-                newx = 49 + (y-149)
+                newx = 49 + (y - 149)
                 newy = 149
                 newdir = "^"
 
     elif dir == "<":
         newy = y
-        newx = (x - 1)
+        newx = x - 1
         newdir = "<"
         if newx < 0 or maze[newy][newx] == " ":
             if 0 <= y < 50:
@@ -92,17 +92,17 @@ def folded_position_ahead(maze, dir, x, y) -> Tuple[int, int, str, str]:
                 newy = 149 - y
                 newdir = ">"
             elif 50 <= y < 100:
-                newx = 0
-                newy = 249 - y
-                newdir = ">"
-            elif 100 <= y < 150:
-                newx = y - 100
-                newy = 149
+                newx = y - 50
+                newy = 100
                 newdir = "v"
-            elif 150 <= y < 200:
+            elif 100 <= y < 150:
                 newx = 50
-                newy = 249 - y
+                newy = 149 - y
                 newdir = ">"
+            elif 150 <= y < 200:
+                newx = y - 100
+                newy = 0
+                newdir = "v"
 
     elif dir == "v":
         newx = x
@@ -141,10 +141,7 @@ def folded_position_ahead(maze, dir, x, y) -> Tuple[int, int, str, str]:
                 newdir = "^"
     else:
         raise ValueError
-    try:
-        assert (0 <= newx < 150) and (0 <= newy < 200)
-    except AssertionError:
-        assert 1
+
     return newx, newy, newdir, maze[newy][newx]
 
 
@@ -161,11 +158,6 @@ dir = ">"
 
 # traverse
 for command in commands:
-    # from copy import deepcopy
-    # screen = deepcopy(maze)
-    # screen[y][x] = "@"
-    # print("\n"*5)
-    # print("\n".join(["".join(row) for row in screen]))
     if isinstance(command, str):
         dir = rotate(dir, rotation_dir=command)
         continue
@@ -184,8 +176,34 @@ final_password = 1000 * (y + 1) + 4 * (x + 1) + dir_score[dir]
 print(f"First star solution :{final_password}")
 
 # Cube path
-x, y, _, _ = folded_position_ahead(maze, "<", x=50, y=0)
-assert (x == 0) and (y == 149)
+
+# Tests of folding
+assert folded_position_ahead(maze, "<", x=50, y=0)[:3] == (0, 149, ">")
+assert folded_position_ahead(maze, "<", x=0, y=149)[:3] == (50, 0, ">")
+assert folded_position_ahead(maze, "<", x=50, y=49)[:3] == (0, 100, ">")
+assert folded_position_ahead(maze, "<", x=0, y=100)[:3] == (50, 49, ">")
+
+assert folded_position_ahead(maze, "<", x=50, y=50)[:3] == (0, 100, "v")
+assert folded_position_ahead(maze, "^", x=0, y=100)[:3] == (50, 50, ">")
+assert folded_position_ahead(maze, "<", x=50, y=99)[:3] == (49, 100, "v")
+assert folded_position_ahead(maze, "^", x=49, y=100)[:3] == (50, 99, ">")
+
+assert folded_position_ahead(maze, "<", x=0, y=150)[:3] == (50, 0, "v")
+assert folded_position_ahead(maze, "^", x=50, y=0)[:3] == (0, 150, ">")
+
+
+assert folded_position_ahead(maze, ">", x=149, y=0)[:3] == (99, 149, "<")
+assert folded_position_ahead(maze, ">", x=99, y=149)[:3] == (149, 0, "<")
+
+assert folded_position_ahead(maze, ">", x=99, y=50)[:3] == (100, 49, "^")
+assert folded_position_ahead(maze, "v", x=100, y=49)[:3] == (99, 50, "<")
+
+assert folded_position_ahead(maze, ">", x=49, y=150)[:3] == (50, 149, "^")
+assert folded_position_ahead(maze, "v", x=50, y=149)[:3] == (49, 150, "<")
+
+
+assert folded_position_ahead(maze, "v", x=0, y=199)[:3] == (100, 0, "v")
+assert folded_position_ahead(maze, "^", x=100, y=0)[:3] == (0, 199, "^")
 
 
 # init position
@@ -195,11 +213,6 @@ dir = ">"
 
 # traverse
 for command in commands:
-    # from copy import deepcopy
-    # screen = deepcopy(maze)
-    # screen[y][x] = "@"
-    # print("\n"*5)
-    # print("\n".join(["".join(row) for row in screen]))
     if isinstance(command, str):
         dir = rotate(dir, rotation_dir=command)
         continue
