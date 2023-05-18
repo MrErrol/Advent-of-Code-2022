@@ -7,6 +7,7 @@ with open("input.txt", "+r") as file:
 all_lines = [int(line) for line in raw_lines]
 numbered_lines = [(ind, number) for ind, number in enumerate(all_lines)]
 
+
 def mix(original_lines: deque, to_mix: deque) -> deque:
     N = len(original_lines)
     for pair in original_lines:
@@ -27,6 +28,7 @@ def get_score(mixed: deque) -> int:
     zero_position = [val for _, val in mixed].index(0)
     size = len(mixed)
     return sum([mixed[(zero_position + ind) % size][1] for ind in [1000, 2000, 3000]])
+
 
 original = deque(numbered_lines)
 to_mix = deque(numbered_lines)

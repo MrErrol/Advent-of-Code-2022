@@ -35,12 +35,12 @@ for line in lines:
         if pair1[0] == pair2[0]:
             x = pair1[0]
             start, stop = (pair1[1], pair2[1]) if (pair1[1] < pair2[1]) else (pair2[1], pair1[1])
-            for y in range(start, stop+1):
+            for y in range(start, stop + 1):
                 obstacles[(x, y)] = "#"
         elif pair1[1] == pair2[1]:
             y = pair1[1]
             start, stop = (pair1[0], pair2[0]) if (pair1[0] < pair2[0]) else (pair2[0], pair1[0])
-            for x in range(start, stop+1):
+            for x in range(start, stop + 1):
                 obstacles[(x, y)] = "#"
         else:
             raise ValueError("line of rocks is not aligned!")
@@ -61,7 +61,7 @@ for x in range(500 - bottom_line - 50, 500 + bottom_line + 50):
 
 for sand_counter in range(1, 1000000):
     try:
-        obstacles = drop_sand(space=obstacles, bottom_line=bottom_line+2)
+        obstacles = drop_sand(space=obstacles, bottom_line=bottom_line + 2)
     except EOFError:
         break
 

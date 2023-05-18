@@ -66,6 +66,7 @@ class Monkey(object):
             return f"Monkey({self.value})"
         return f"Monkey({self.left}{self.operation}{self.right})"
 
+
 def solve_monkeys(monkeys: List[Monkey]) -> dict:
     unknown_monkeys = monkeys
     database = {}
@@ -81,11 +82,13 @@ def solve_monkeys(monkeys: List[Monkey]) -> dict:
         unknown_monkeys = still_to_do
     return database
 
+
 def get_root_difference(monkeys: List[Monkey], human: int) -> int:
     solved = solve_monkeys(deepcopy(monkeys) + [Monkey(name="humn", value=human)])
     return solved["root"]
 
-unknown_monkeys: List[Monkey]  = [Monkey.from_line(line) for line in raw_lines]
+
+unknown_monkeys: List[Monkey] = [Monkey.from_line(line) for line in raw_lines]
 solved = solve_monkeys(unknown_monkeys)
 solution_1 = solved["root"]
 
@@ -99,7 +102,7 @@ approx: float = bisect(lambda h: get_root_difference(correct_monkeys, human=h), 
 left_guess = int(approx)
 if get_root_difference(deepcopy(correct_monkeys), left_guess) == 0:
     solution_2 = left_guess
-elif get_root_difference(deepcopy(correct_monkeys), left_guess+1) == 0:
+elif get_root_difference(deepcopy(correct_monkeys), left_guess + 1) == 0:
     solution_2 = left_guess + 1
 else:
     solution_2 = None

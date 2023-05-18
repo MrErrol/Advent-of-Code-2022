@@ -20,7 +20,8 @@ def decimal_to_snafu(number: int) -> str:
         remainder = remainder - 5
     return decimal_to_snafu((number - remainder) // 5) + DIGIT_TO_SYMBOL[remainder]
 
-assert snafu_to_decimal("1=0") ==  15
+
+assert snafu_to_decimal("1=0") == 15
 assert decimal_to_snafu(15) == "1=0"
 
 fuel_needs = [snafu_to_decimal(line) for line in lines]

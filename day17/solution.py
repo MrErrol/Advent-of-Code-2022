@@ -17,7 +17,7 @@ shapes = [
 
 
 def get_highest_empty_level(map: np.ndarray, previous: int) -> int:
-    map_overpart = map[previous:previous+4]
+    map_overpart = map[previous : previous + 4]
     if map_overpart.sum().sum() == 0:
         return previous
     return previous + 4 - map_overpart.sum(axis=1)[::-1].astype(bool).argmax()
@@ -50,10 +50,11 @@ def put_block_on_map(shape: np.ndarray, block_x: int, block_y: int, map: np.ndar
                 map[block_y + y_shape][block_x + x_shape] = 1
     return map
 
+
 def find_period_and_gains(states) -> Tuple[int, int, int]:
     simple_state_reversed = [(block, app) for _, block, app, _ in states[::-1]]
     state = simple_state_reversed[0]
-    simple_state_reversed = simple_state_reversed[1 :]
+    simple_state_reversed = simple_state_reversed[1:]
     period = simple_state_reversed.index(state) + 1
     assert simple_state_reversed[2 * period] == simple_state_reversed[period]
     gain_on_period = states[-1][3] - states[-1 - period][3]
@@ -72,7 +73,9 @@ def run_simulation(rocks_to_drop):
     time_from_appearance = 0
     for time in range(rocks_to_drop * 100):
         if not time % len(wind_cycle):
-            end_of_wind_states.append((current_block, current_block % len(shapes), time_from_appearance, highest_empty_level))
+            end_of_wind_states.append(
+                (current_block, current_block % len(shapes), time_from_appearance, highest_empty_level)
+            )
         block = shapes[current_block % len(shapes)]
         time_from_appearance += 1
         # push block
@@ -98,6 +101,7 @@ def run_simulation(rocks_to_drop):
 
     return solution, end_of_wind_states
 
+
 solution_1, _ = run_simulation(rocks_to_drop=2022)
 
 print(f"First star solution: {solution_1}")
@@ -109,7 +113,7 @@ _, end_of_wind_states = run_simulation(rocks_to_drop=10000)
 _, height_gain, blocks_gain = find_period_and_gains(end_of_wind_states)
 
 # proper two stage calculation of part 2
-blocks_to_simulate = all_rocks % blocks_gain  + 2 * blocks_gain  # additional periods to get rid of initial condition
+blocks_to_simulate = all_rocks % blocks_gain + 2 * blocks_gain  # additional periods to get rid of initial condition
 height_1, _ = run_simulation(rocks_to_drop=blocks_to_simulate)
 height_2 = (all_rocks - blocks_to_simulate) * height_gain // blocks_gain
 solution_2 = height_1 + height_2

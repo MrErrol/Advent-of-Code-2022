@@ -83,13 +83,9 @@ class PathSeeker:
             Position(x=position.x, y=position.y + 1),
             Position(x=position.x, y=position.y - 1),
         ]
-        valid_options = [
-            pos for pos in options if 0 <= pos.x < self.valley.width and 0 <= pos.y < self.valley.height
-        ]
+        valid_options = [pos for pos in options if 0 <= pos.x < self.valley.width and 0 <= pos.y < self.valley.height]
         # 2 special cases outside of valley
-        valid_options += [
-            pos for pos in options if pos == self.start or pos == self.destination
-        ]
+        valid_options += [pos for pos in options if pos == self.start or pos == self.destination]
         return valid_options
 
     def make_search_step(self):
@@ -117,9 +113,9 @@ class PathSeeker:
                 map[blizzard.position.y][blizzard.position.x] += 1
 
         map = [["#"] + [str(field) for field in row] + ["#"] for row in map]
-        map = [["#" for _ in  range(self.valley.width + 2)]] + map + [["#" for _ in range(self.valley.width + 2)]]
-        map[0][self.start.x + 1] = '.'
-        map[-1][self.destination.x + 1] = '.'
+        map = [["#" for _ in range(self.valley.width + 2)]] + map + [["#" for _ in range(self.valley.width + 2)]]
+        map[0][self.start.x + 1] = "."
+        map[-1][self.destination.x + 1] = "."
         for option in self.positions:
             if map[option.y + 1][option.x + 1] != ".":
                 raise ValueError("Frozen!")
@@ -142,7 +138,7 @@ if __name__ == "__main__":
         raw_map = file.read().split("\n")
 
     start = Position(y=-1, x=raw_map[0].index(".") - 1)
-    destination = Position(y=len(raw_map)-2, x=raw_map[-1].index(".") - 1)
+    destination = Position(y=len(raw_map) - 2, x=raw_map[-1].index(".") - 1)
 
     valley = Valley(raw_map=raw_map)
 

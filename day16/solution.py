@@ -85,18 +85,20 @@ while incomplete_paths:
             if vertex in visited:
                 continue
             time_cost = distances[(current_position, vertex)] + 1
-            if  time_cost > current_time:
+            if time_cost > current_time:
                 continue
             any_option = 1
             new_incomplete.append(path + [(vertex, current_time - time_cost)])
         complete_paths.append(path)
     incomplete_paths = new_incomplete
 
+
 def score_path(path: List) -> int:
     score = 0
     for v, time in path:
         score += interesting_vertices[v] * time
     return score
+
 
 best_paths = {}
 for path in complete_paths:

@@ -3,6 +3,7 @@ from functools import cmp_to_key
 from typing import Union, List
 import json
 
+
 def compare_values(left: Union[int, List], right: Union[int, List]) -> int:
     """
     1 - order is right
@@ -34,6 +35,7 @@ def compare_values(left: Union[int, List], right: Union[int, List]) -> int:
         return compare_values(left, [right])
 
     assert False, "Something went wrong"
+
 
 with open("input.txt", "+r") as file:
     raw_pairs = file.read().split("\n\n")

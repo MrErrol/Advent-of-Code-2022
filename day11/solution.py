@@ -31,7 +31,7 @@ class Monkey:
         elif self.operator == "*":
             new_value = (item_value * self.coef) // self.divisor
         elif self.operator == "**":
-            new_value = (item_value ** self.coef) // self.divisor
+            new_value = (item_value**self.coef) // self.divisor
         else:
             assert False
         target = self.target_failed if new_value % self.test else self.target_passed
@@ -39,9 +39,11 @@ class Monkey:
 
     def inspect_items(self) -> Generator[Tuple[int, int], None, None]:
         items = self.items[:]
+
         def inspected_items():
             for item in items:
                 yield self.inspect_item(item)
+
         self.items = []
         return inspected_items()
 
@@ -66,6 +68,7 @@ class MonkeyPack:
         inspection_count = list(self.inspections.values())
         inspection_count.sort()
         return inspection_count[-1] * inspection_count[-2]
+
 
 with open("input.txt", "+r") as file:
     raw_monkeys = file.read().split("\n\n")
