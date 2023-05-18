@@ -7,4 +7,6 @@ All riddles solved
 Small animation for day 24 riddle:
 ![Alt Text][blizzard]
 
+_tiles are coming from https://github.com/crawl/tiles_
+
 [blizzard]: day24/animation/going_there.gif
